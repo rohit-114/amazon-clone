@@ -23,6 +23,7 @@ const Product = ({ title, price, description, category, image, rating }) => {
           width={200}
           height={200}
           className="h-[200px] w-[200px] object-contain"
+          alt={title}
         />
       </div>
 
@@ -46,8 +47,16 @@ const Product = ({ title, price, description, category, image, rating }) => {
       </div>
 
       {hasPrime && (
-        <div className="flex items-center space-x-2 -mt-5">
-          <img className="w-12" src="/prime-tag.png" alt="" />
+        <div className="relative flex items-center space-x-2 -mt-5">
+          <div className="w-12">
+            <Image
+              width={169}
+              height={169}
+              className="w-full h-full object-contain"
+              src="/prime-tag.png"
+              alt="prime"
+            />
+          </div>
           <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
         </div>
       )}

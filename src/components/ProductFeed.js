@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import Product from "./Product";
 
@@ -20,7 +21,15 @@ const ProductFeed = ({ products }) => {
           );
         })}
 
-      <img className="md:col-span-full lg:px-1" src="/ad-banner.jpg" alt="" />
+      <div className="md:col-span-full lg:px-1">
+        <Image
+          width={1500}
+          height={300}
+          className="w-full h-full object-contain"
+          src="/ad-banner.jpg"
+          alt="ad"
+        />
+      </div>
 
       <div className="md:col-span-2">
         {products
