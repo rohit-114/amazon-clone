@@ -2,14 +2,39 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { HiStar } from "react-icons/hi";
 import { NumericFormat } from "react-number-format";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
 
-const Product = ({ title, price, description, category, image, rating }) => {
+const Product = ({
+  id,
+  title,
+  price,
+  description,
+  category,
+  image,
+  rating,
+}) => {
   const ratingParsed = Array(Math.round(rating.rate)).fill();
   const [hasPrime, setIsPrimeEnabled] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsPrimeEnabled(Math.random() < 0.5);
   }, []);
+
+  const addItemToBasket = () => {
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      ratingParsed,
+      hasPrime,
+    };
+    dispatch(addToBasket(product));
+  };
 
   return (
     <div className="relative flex flex-col justify-between bg-white z-30 p-10 m-5">
@@ -22,7 +47,7 @@ const Product = ({ title, price, description, category, image, rating }) => {
           src={image}
           width={200}
           height={200}
-          className="h-[200px] w-[200px] object-contain"
+          className="w-[200px] h-[200px] object-contain"
           alt={title}
         />
       </div>
@@ -47,12 +72,13 @@ const Product = ({ title, price, description, category, image, rating }) => {
       </div>
 
       {hasPrime && (
-        <div className="relative flex items-center space-x-2 -mt-5">
+        <div className="relative flex items-center space-x-2 -mt-5 mb-1">
           <div className="w-12">
             <Image
+              loading="lazy"
               width={169}
               height={169}
-              className="w-full h-full object-contain"
+              className="object-contain"
               src="/prime-tag.png"
               alt="prime"
             />
@@ -61,7 +87,9 @@ const Product = ({ title, price, description, category, image, rating }) => {
         </div>
       )}
 
-      <button className="btn mt-auto">Add to Basket</button>
+      <button onClick={addItemToBasket} className="btn mt-auto">
+        Add to Basket
+      </button>
     </div>
   );
 };

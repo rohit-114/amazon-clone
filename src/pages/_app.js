@@ -1,13 +1,20 @@
 import { Provider } from "react-redux";
-import { store } from "../store/store";
+import { persistor, store } from "../store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
 
-const MyApp = ({ Component, pageProps }) => {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Component {...pageProps} />
+        </PersistGate>
+      </Provider>
+    </SessionProvider>
   );
-};
-
-export default MyApp;
+}

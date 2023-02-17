@@ -2,20 +2,47 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   items: [],
+  qty: 0,
 };
 
 export const basketSlice = createSlice({
   name: "basket",
   initialState,
   reducers: {
-    addToBasket: (state, action) => {},
-    removeFromBasket: (state, action) => {},
+    addToBasket: (state, action) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.qty++;
+      } else {
+        state.items = [...state.items, { ...action.payload, qty: 1 }];
+      }
+    },
+    increaseQty: (state, action) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      item.qty++;
+    },
+
+    decreaseQty: (state, action) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item.qty === 1) {
+        item.qty = 1;
+      } else {
+        item.qty--;
+      }
+    },
+    removeFromBasket: (state, action) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    },
   },
 });
 
-export const { addToBasket, removeFromBasket } = basketSlice.actions;
+export const { addToBasket, increaseQty, decreaseQty, removeFromBasket } =
+  basketSlice.actions;
 
-// Selectors - This is how we pull information from the Global store slice
-export const selectItems = (state) => state.basket.items;
+export const selectItems = (state) => state.items;
+export const selectTotalPrice = (state) =>
+  state.items.reduce((total, item) => (total += item.price * item.qty), 0);
+export const selectTotalQty = (state) =>
+  state.items.reduce((total, item) => (total += item.qty), 0);
 
 export default basketSlice.reducer;

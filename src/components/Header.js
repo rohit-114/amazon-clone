@@ -5,12 +5,25 @@ import {
   HiOutlineMenu,
   HiOutlineSearch,
 } from "react-icons/hi";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectTotalQty } from "../slices/basketSlice";
 
 const Header = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const totalQty = useSelector(selectTotalQty);
+
   return (
     <header>
       <div className="flex items-center flex-grow p-1 py-1 bg-amazon_blue">
-        <div className="flex items-center flex-grow sm:flex-grow-0 mt-2">
+        <div
+          onClick={() => {
+            router.push("/");
+          }}
+          className="flex items-center flex-grow sm:flex-grow-0 mt-2"
+        >
           <Image
             priority
             src="/amazon_logo.png"
@@ -32,8 +45,8 @@ const Header = () => {
         </div>
 
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello Rohit</p>
+          <div onClick={!session ? signIn : signOut} className="link">
+            <p>{session ? `Hello, ${session.user.name}` : "Sign In"}</p>
             <p className="font-bold md:text-sm">Accounts & Lists</p>
           </div>
 
@@ -42,9 +55,14 @@ const Header = () => {
             <p className="font-bold md:text-sm">& Orders</p>
           </div>
 
-          <div className="flex items-center relative link">
+          <div
+            onClick={() => {
+              router.push("/checkout");
+            }}
+            className="flex items-center relative link"
+          >
             <span className="absolute top-0 right-0 md:right-10 h-4 w-4 rounded-full font-bold bg-yellow-400 text-black text-center">
-              0
+              {totalQty}
             </span>
             <HiOutlineShoppingCart size={42} />
             <p className="hidden md:inline font-bold md:text-sm mt-2">Basket</p>

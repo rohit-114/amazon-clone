@@ -1,7 +1,7 @@
 import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Banner = () => {
   return (
@@ -18,7 +18,7 @@ const Banner = () => {
         <div>
           <Image
             priority
-            width={1000}
+            width={1500}
             height={400}
             className="w-full h-full object-contain"
             src="/carousel-1.jpg"
