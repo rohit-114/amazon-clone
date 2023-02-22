@@ -16,7 +16,7 @@ export default function Success() {
       return persistor.purge();
     });
     dispatch(clearBasket());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="bg-gray-100 h-screen">
@@ -30,8 +30,8 @@ export default function Success() {
             </h1>
           </div>
           <p>
-            Thank you for shopping with us. We'll send a confirmation once your
-            item has been shipped, if you would like to check the status of
+            Thank you for shopping with us. We&apos;ll send a confirmation once
+            your item has been shipped, if you would like to check the status of
             order(s) please press the link below.
           </p>
           <button onClick={() => router.push("/orders")} className="btn mt-8">

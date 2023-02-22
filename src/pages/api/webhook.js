@@ -28,7 +28,7 @@ const fulfillOrder = async (session) => {
     });
 };
 
-export default async (req, res) => {
+export default async function (req, res) {
   if (req.method === "POST") {
     const reqBuffer = await buffer(req);
     const payload = reqBuffer.toString();
@@ -51,7 +51,7 @@ export default async (req, res) => {
         .catch((err) => res.status(400).send(`Webhook Error: ${err.message}`));
     }
   }
-};
+}
 
 export const config = {
   api: {
