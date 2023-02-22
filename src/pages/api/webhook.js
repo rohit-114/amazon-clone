@@ -30,13 +30,14 @@ const fulfillOrder = async (session) => {
 
 export default async function (req, res) {
   if (req.method === "POST") {
-    // const payload = await buffer(req);
+    const reqBuffer = await buffer(req);
+    const payload = reqBuffer.toString();
     const sig = req.headers["stripe-signature"];
 
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
     } catch (err) {
       console.log("ERROR", err.message);
       return res.status(400).send(`Webhook error: ${err.message}`);
