@@ -9,12 +9,31 @@ import {
 } from "../slices/basketSlice";
 import { NumericFormat } from "react-number-format";
 import { useSession } from "next-auth/react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 export default function Checkout() {
   const items = useSelector(selectItems);
   const totalQty = useSelector(selectTotalQty);
   const totalPrice = useSelector(selectTotalPrice);
   const { data: session } = useSession();
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) alert(result.error.message);
+  };
 
   return (
     <div className="bg-gray-100">
@@ -69,6 +88,8 @@ export default function Checkout() {
               />
             </h2>
             <button
+              role="link"
+              onClick={createCheckoutSession}
               disabled={!session}
               className={`mt-2 ${
                 !session

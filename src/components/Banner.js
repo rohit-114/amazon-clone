@@ -17,7 +17,7 @@ const Banner = () => {
       >
         <div>
           <Image
-            priority
+            loading="lazy"
             width={1500}
             height={400}
             className="w-full h-full object-contain"

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import {
   persistReducer,
@@ -12,12 +12,14 @@ import {
 } from "redux-persist";
 import basketReducer from "../slices/basketSlice";
 
+const rootReducer = combineReducers({ basket: basketReducer });
+
 const persistConfig = {
   key: "root",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, basketReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
