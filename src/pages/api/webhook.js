@@ -30,8 +30,7 @@ const fulfillOrder = async (session) => {
 
 export default async function (req, res) {
   if (req.method === "POST") {
-    const reqBuffer = await buffer(req);
-    const payload = reqBuffer.toString();
+    const payload = await buffer(req);
     const sig = req.headers["stripe-signature"];
 
     let event;
