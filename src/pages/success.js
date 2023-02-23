@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { clearBasket } from "../slices/basketSlice";
 import { persistor } from "../store/store";
+import Head from "next/head";
 
 export default function Success() {
   const router = useRouter();
@@ -20,6 +21,9 @@ export default function Success() {
 
   return (
     <div className="bg-gray-100 h-screen">
+      <Head>
+        <title>Order Confirmed</title>
+      </Head>
       <Header />
       <main className="max-w-screen-lg mx-auto">
         <div className="flex flex-col p-10 bg-white">

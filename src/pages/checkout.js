@@ -11,6 +11,7 @@ import { NumericFormat } from "react-number-format";
 import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import Head from "next/head";
 
 const stripePromise = loadStripe(process.env.stripe_public_key);
 
@@ -37,6 +38,9 @@ export default function Checkout() {
 
   return (
     <div className="bg-gray-100">
+      <Head>
+        <title>Checkout</title>
+      </Head>
       <Header />
       <main className="lg:flex max-w-screen-2xl mx-auto">
         <div className="flex-grow m-5 shadow-sm">
