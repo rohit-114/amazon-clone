@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { getSession } from "next-auth/react";
 import { NumericFormat } from "react-number-format";
 import moment from "moment";
 
@@ -64,17 +63,3 @@ const Order = ({ id, amount, amountShipping, images, timestamp, items }) => {
 };
 
 export default Order;
-
-export async function getServerSideProps(context) {
-  try {
-    const session = await getSession(context);
-    return {
-      props: {
-        session,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-    return { props: {} };
-  }
-}
